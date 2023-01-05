@@ -226,3 +226,5 @@ generator.on('ignore', (url) => {
 ## License
 
 [MIT](https://github.com/lgraubner/sitemap-generator/blob/master/LICENSE) © [Lars Graubner](https://larsgraubner.com)
+
+Test push
