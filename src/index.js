@@ -88,11 +88,18 @@ module.exports = function SitemapGenerator(uri, opts) {
     } else {
       // https://zendesk.atlassian.net/browse/WT-5268 - ignore canonicalized pages
       if (options.ignoreCanonacalized) {
-        const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(page);
+        const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(
+          page
+        );
         if (canonicalMatches && canonicalMatches.length > 1) {
-          const canonical = matches[1];
+          const canonical = canonicalMatches[1];
           if (canonical && canonical !== url) {
             emitter.emit('ignore', url);
+            if (returnSitemapData) {
+              return {
+                ignored: true
+              };
+            }
             return;
           }
         }
