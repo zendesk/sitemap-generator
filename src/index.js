@@ -91,7 +91,7 @@ module.exports = function SitemapGenerator(uri, opts) {
         const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(page);
         if (canonicalMatches && canonicalMatches.length > 1) {
           const canonical = matches[1];
-          if (canonical !== url) {
+          if (canonical && canonical !== url) {
             emitter.emit('ignore', url);
             return;
           }
