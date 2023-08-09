@@ -54,7 +54,7 @@ describe('#SitemapGenerator', () => {
 
   test('::parsePage should respect the ignoreCanonacalized option', () => {
     const page =
-      '<!doctype html><html class="no-js" lang="en-US"><head><meta property="article:published_time" content="2021-09-21T15:42:48+00:00" /><link rel="canonical" href="http://not.foo.bar" /></head><body>Hello world</body></html>';
+      '<!doctype html><html class="no-js" lang="en-US"><head><link rel="canonical" href="http://not.foo.bar" /></head><body>Hello world</body></html>';
     const data = gen.parsePage(queueItem, page, true);
 
     expect(data.ignored).toBe(true);
