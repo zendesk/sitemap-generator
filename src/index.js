@@ -80,30 +80,35 @@ module.exports = function SitemapGenerator(uri, opts) {
   const parsePage = (queueItem, page, returnSitemapData = false) => {
     const { url, depth } = queueItem;
 
+    let ignored = false;
+
     if (
       /(<meta(?=[^>]+noindex).*?>)/.test(page) || // check if robots noindex is present
       (options.ignoreAMP && /<html[^>]+(amp|⚡)[^>]*>/.test(page)) // check if it's an amp page
     ) {
-      emitter.emit('ignore', url);
-    } else {
-      if (options.ignoreCanonicalized) {
-        const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(
-          page
-        );
-        if (canonicalMatches && canonicalMatches.length > 1) {
-          const canonical = canonicalMatches[1];
-          if (canonical && canonical !== url) {
-            emitter.emit('ignore', url);
-            if (returnSitemapData) {
-              return {
-                ignored: true
-              };
-            }
-            return;
-          }
+      ignored = true;
+    }
+
+    if (options.ignoreCanonicalized) {
+      const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(
+        page
+      );
+      if (canonicalMatches && canonicalMatches.length > 1) {
+        const canonical = canonicalMatches[1];
+        if (canonical && canonical !== url) {
+          ignored = true;
         }
       }
+    }
 
+    if (ignored) {
+      emitter.emit('ignore', url);
+      if (returnSitemapData) {
+        return {
+          ignored: true
+        };
+      }
+    } else {
       emitter.emit('add', url);
 
       if (sitemapPath !== null) {
