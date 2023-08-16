@@ -73,6 +73,7 @@ describe('#SitemapGenerator', () => {
     const dataOff = ignoreCanonicalizedOff.parsePage(queueItem, page, true);
 
     expect(dataOff.url).toBe(queueItem.url);
+    expect(dataOff).not.toHaveProperty('ignored');
   });
 
   test('::parsePage intakes pages with matching canonical URL regardless of ignoreCanonicalized option', () => {
@@ -88,5 +89,6 @@ describe('#SitemapGenerator', () => {
     const dataOff = ignoreCanonicalizedOff.parsePage(queueItem, page, true);
 
     expect(dataOff.url).toBe(queueItem.url);
+    expect(dataOff).not.toHaveProperty('ignored');
   });
 });
