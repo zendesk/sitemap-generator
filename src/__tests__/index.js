@@ -52,11 +52,41 @@ describe('#SitemapGenerator', () => {
     expect(data.formattedLastMod).toBe('2023-01-05');
   });
 
-  test('::parsePage should respect the ignoreCanonicalized option', () => {
+  test('::parsePage ignores pages with mismatched canonical URL when ignoreCanonicalized option is on', () => {
     const page =
       '<!doctype html><html class="no-js" lang="en-US"><head><link rel="canonical" href="http://not.foo.bar" /></head><body>Hello world</body></html>';
     const data = gen.parsePage(queueItem, page, true);
 
     expect(data.ignored).toBe(true);
+  });
+
+  test('::parsePage intakes pages with missing canonical URL regardless of ignoreCanonicalized option', () => {
+    const page =
+      '<!doctype html><html class="no-js" lang="en-US"><head></head><body>Hello world</body></html>';
+    const data = gen.parsePage(queueItem, page, true);
+
+    expect(data.url).toBe(queueItem.url);
+
+    const ignoreCanonicalizedOff = SitemapGenerator('http://foo.bar', {
+      ignoreCanonicalized: false
+    });
+    const dataOff = ignoreCanonicalizedOff.parsePage(queueItem, page, true);
+
+    expect(dataOff.url).toBe(queueItem.url);
+  });
+
+  test('::parsePage intakes pages with matching canonical URL regardless of ignoreCanonicalized option', () => {
+    const page =
+      '<!doctype html><html class="no-js" lang="en-US"><head><link rel="canonical" href="http://foo.bar" /></head><body>Hello world</body></html>';
+    const data = gen.parsePage(queueItem, page, true);
+
+    expect(data.url).toBe(queueItem.url);
+
+    const ignoreCanonicalizedOff = SitemapGenerator('http://foo.bar', {
+      ignoreCanonicalized: false
+    });
+    const dataOff = ignoreCanonicalizedOff.parsePage(queueItem, page, true);
+
+    expect(dataOff.url).toBe(queueItem.url);
   });
 });
