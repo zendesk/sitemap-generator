@@ -126,7 +126,7 @@ Default: `true`
 
 Indicates whether [Google AMP pages](https://www.ampproject.org/) should be ignored and not be added to the sitemap.
 
-### ignoreCanonacalized
+### ignoreCanonicalized
 
 Type: `boolean`
 Default: `true`

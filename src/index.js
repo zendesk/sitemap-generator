@@ -30,7 +30,7 @@ module.exports = function SitemapGenerator(uri, opts) {
     changeFreq: '',
     priorityMap: [],
     ignoreAMP: true,
-    ignoreCanonacalized: true
+    ignoreCanonicalized: true
   };
 
   if (!uri) {
@@ -86,7 +86,7 @@ module.exports = function SitemapGenerator(uri, opts) {
     ) {
       emitter.emit('ignore', url);
     } else {
-      if (options.ignoreCanonacalized) {
+      if (options.ignoreCanonicalized) {
         const canonicalMatches = /<link rel="canonical" href="([^"]*)"/gi.exec(
           page
         );

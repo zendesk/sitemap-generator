@@ -52,7 +52,7 @@ describe('#SitemapGenerator', () => {
     expect(data.formattedLastMod).toBe('2023-01-05');
   });
 
-  test('::parsePage should respect the ignoreCanonacalized option', () => {
+  test('::parsePage should respect the ignoreCanonicalized option', () => {
     const page =
       '<!doctype html><html class="no-js" lang="en-US"><head><link rel="canonical" href="http://not.foo.bar" /></head><body>Hello world</body></html>';
     const data = gen.parsePage(queueItem, page, true);
